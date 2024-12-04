@@ -17,10 +17,11 @@ Ensure you have the following installed on your system:
 - [Python 3](https://www.python.org/downloads/)
 
 ### Steps to Install and Run
-1. Clone and move into this repository
+1. Clone this repository
 ```
 git clone git@github.com:willpill/p01_softdev.git
 ```
+2. CD into the repository
 ```
 cd p01_softdev
 ```
@@ -29,11 +30,12 @@ cd p01_softdev
 python3 -m venv foo
 ```
 
-4. Activate the virtual environment: Linux/MacOS
+4. Activate the virtual environment:
+For Linux/MacOS 
 ```
 . foo/bin/activate
 ```
-4. Activate the virtual environment: Windows
+For Windows
 ```
 foo\Scripts\activate
 ```
