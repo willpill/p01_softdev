@@ -6,3 +6,8 @@ jackieZ -- 12/2/2024
 
 jackieZ -- 12/3/2024 21:50
 - Added text files for keys in keys directory
+
+jackieZ -- 12/4/2024 11:20
+- Started __init__.py
+- Initiate db
+- Wrote register code
