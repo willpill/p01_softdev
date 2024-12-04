@@ -14,3 +14,28 @@ def get_db_connection():
 
 @app.route('/')
 def home():
+    conn=get_db_connection()
+    
+@app.route('/login')
+
+@app.route('/logout')
+
+@app.route('/register')
+def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        password_hash = generate_password_hash(password)
+
+        conn = get_db_connection()
+        try:
+            conn.execute(
+                'INSERT INTO users (username, password_hash) VALUES (?, ?)',
+                (username, password_hash))
+            conn.commit()
+        except sqlite3.IntegrityError:
+            return 'Username already exists'
+        finally:
+            conn.close()
+        return redirect(url_for('login'))
+    return render_template('register.html')
