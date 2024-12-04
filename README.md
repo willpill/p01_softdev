@@ -30,7 +30,7 @@ cd p01_softdev
 python3 -m venv foo
 ```
 
-4. Activate the virtual environment:
+4. Activate the virtual environment: <br>
 For Linux/MacOS 
 ```
 . foo/bin/activate
