@@ -17,7 +17,21 @@ def home():
     conn=get_db_connection()
     
 @app.route('/login')
-
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        
+        conn = get_db_connection()
+        user = conn.execute('SELECT * FROM users WHERE username = ?', (username,)).fetchone()
+        conn.close()
+        
+        if user and check_password_hash(user['password_hash'], password):
+            session['username'] = username
+            flash('Login successful!', 'success')
+            return redirect(url_for('home'))
+        flash('Invalid username or password', 'danger')
+    return render_template('login.html')
 @app.route('/logout')
 
 @app.route('/register')
