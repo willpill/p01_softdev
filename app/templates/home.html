@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Home</title>
+</head>
+<body class="bg-gray-100 text-gray-800">
+    <nav class="bg-blue-600 text-white p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="/" class="text-lg font-bold">Stock Manager</a>
+            <div>
+                {% if session.username %}
+                    <span class="mr-4">Welcome, {{ session.username }}</span>
+                    <a href="/logout" class="text-white hover:underline">Logout</a>
+                {% else %}
+                    <a href="/login" class="mr-4 text-white hover:underline">Login</a>
+                    <a href="/register" class="text-white hover:underline">Register</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    <div class="container mx-auto my-8">
+        <h1 class="text-2xl font-bold">Welcome to Stock Manager</h1>
+        {% if user %}
+        <p>Your current balance: ${{ user['current_balance'] }}</p>
+        <p>Stocks owned: {{ user['stocks_owned'] }}</p>
+        {% else %}
+        <p>Login or register to access your portfolio.</p>
+        <a href="/login" class="btn btn-primary">Login</a>
+        <a href="/register" class="btn btn-secondary">Register</a>
+        {% endif %}
+    </div>
+</body>
+</html>
