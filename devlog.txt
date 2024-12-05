@@ -26,3 +26,6 @@ jackieZ -- 12/5/2024 00:10
 - Update code for home so that it displays something
 - Fixed initiate db
 - Added requirements.txt
+
+princedenH/saschaGZ -- 12/5/2024 11:45
+- Wrote a file and function for getting keys and reading them. Included exceptions for when the file cannot be found. 
