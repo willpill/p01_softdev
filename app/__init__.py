@@ -33,7 +33,10 @@ def login():
         flash('Invalid username or password', 'danger')
     return render_template('login.html')
 @app.route('/logout')
-
+def logout():
+    session.pop('username', None)
+    flash('You have been logged out.', 'info')
+    return redirect(url_for('home'))
 @app.route('/register')
 def register():
     if request.method == 'POST':
