@@ -22,7 +22,7 @@ def home():
         return render_template('home.html', user=user_data)
     return render_template('home.html', user=None)
     
-@app.route('/login')
+@app.route('/login', methods=['GET','POST'])
 def login():
     if request.method == 'POST':
         username = request.form['username']
@@ -38,12 +38,12 @@ def login():
             return redirect(url_for('home'))
         flash('Invalid username or password', 'danger')
     return render_template('login.html')
-@app.route('/logout')
+@app.route('/logout', methods=['GET','POST'])
 def logout():
     session.pop('username', None)
     flash('You have been logged out.', 'info')
     return redirect(url_for('home'))
-@app.route('/register')
+@app.route('/register', methods=['GET','POST'])
 def register():
     if request.method == 'POST':
         username = request.form['username']

@@ -1,0 +1,28 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"> 
+    <title>Register</title> 
+</head> 
+<body class="bg-gray-100 text-gray-800"> 
+    <nav class="bg-blue-600 text-white p-4"> 
+        <a href="/" class="text-lg font-bold">Stock Manager</a> 
+    </nav> 
+    <div class="container mx-auto my-8"> 
+        <h1 class="text-2xl font-bold">Register</h1> 
+        <form action="/register" method="post"> 
+            <label for="username" class="block">Username:</label> 
+            <input type="text" name="username" id="username" class="border p-2 w-full mb-4" required> 
+            <label for="email" class="block">Email:</label> 
+            <input type="email" name="email" id="email" class="border p-2 w-full mb-4" required> 
+            <label for="password" class="block">Password:</label> 
+            <input type="password" name="password" id="password" class="border p-2 w-full mb-4" required> 
+            <button type="submit" class="bg-green-500 text-white py-2 px-4 rounded">Register</button> 
+        </form> 
+        <p>Already have an account? <a href="/login" class="text-blue-500">Login here</a>.</p> 
+    </div> 
+</body> 
+</html>
+
