@@ -24,7 +24,7 @@ def home():
     
 @app.route('/login')
 def login():
-    if request.method == 'POST':
+    if request.method == ['POST','GET']:
         username = request.form['username']
         password = request.form['password']
         
@@ -45,7 +45,7 @@ def logout():
     return redirect(url_for('home'))
 @app.route('/register')
 def register():
-    if request.method == 'POST':
+    if request.method == ['POST','GET']:
         username = request.form['username']
         password = request.form['password']
         email = request.form['email']
