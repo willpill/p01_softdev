@@ -59,3 +59,14 @@ def register():
         flash('Registration successful! Please log in.', 'success')
         return redirect(url_for('login'))
     return render_template('register.html')
+
+@app.route('/currency_exchange')
+def currency_exchange():
+    return render_template('currency_exchange.html')
+
+@app.route('/market_data')
+def market_data():
+    return render_template('market_data.html')
+
+if __name__ == '__main__':
+    app.run(debug=True)
