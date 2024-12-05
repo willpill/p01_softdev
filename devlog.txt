@@ -18,3 +18,4 @@ jackieZ -- 12/5/2024 00:10
 - Wrote basic html for home page
 - Update code for home so that it displays something
 - Fixed initiate db
+- Added requirements.txt
