@@ -11,3 +11,10 @@ jackieZ -- 12/4/2024 11:20
 - Started __init__.py
 - Initiate db
 - Wrote register code
+
+jackieZ -- 12/5/2024 00:10
+- Wrote login code
+- Wrote logout code
+- Wrote basic html for home page
+- Update code for home so that it displays something
+- Fixed initiate db
