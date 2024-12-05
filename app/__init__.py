@@ -14,7 +14,13 @@ def get_db_connection():
 
 @app.route('/')
 def home():
-    conn=get_db_connection()
+    if 'username' in session:
+        username = session['username']
+        conn = get_db_connection()
+        user_data = conn.execute('SELECT * FROM users WHERE username = ?', (username,)).fetchone()
+        conn.close()
+        return render_template('home.html', user=user_data)
+    return render_template('home.html', user=None)
     
 @app.route('/login')
 def login():
