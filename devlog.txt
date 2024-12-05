@@ -14,6 +14,7 @@ jackieZ -- 12/4/2024 11:20
 
 saschaGZ -- 12/4/2024 11:20
 - Wrote README, including roles for different members and a brief project description.
+- Created a temporary (?) name for the project, "Zenith."
 
 jackieZ -- 12/5/2024 00:10
 - Wrote login code
