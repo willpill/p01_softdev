@@ -3,13 +3,16 @@ import sqlite3
 import os
 from werkzeug.security import generate_password_hash, check_password_hash
 from build_db import setup_database
-
+import keys 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
-
+currency_key = keys.get_key("keys_currencylayer.txt")
+fixer_key = keys.get_key("keys_fixer.txt")
+marketstack_key = keys.get_key("keys_marketstack.txt")
+modelingprep_key =  keys.get_key("keys_financialmodelingprep.txt")
 def get_db_connection():
     conn = sqlite3.connect('stonks.db')
-    conn.row_factory = sqlite3.Row
+    conn.row_factory = sqlite3.Row 
     return conn
 
 @app.route('/')
