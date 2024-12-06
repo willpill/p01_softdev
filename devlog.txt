@@ -29,3 +29,7 @@ jackieZ -- 12/5/2024 00:10
 
 princedenH/saschaGZ -- 12/5/2024 11:45
 - Wrote a file and function for getting keys and reading them. Included exceptions for when the file cannot be found. 
+
+jackieZ -- 12/5/2024 12:10
+- Wrote login.html
+- Wrote register.html (Doesn't redirect back to home after registering though, not sure why)
