@@ -13,10 +13,10 @@
             <div>
                 {% if session.username %}
                     <span class="mr-4">Welcome, {{ session.username }}</span>
-                    <a href="/logout" class="text-white hover:underline">Logout</a>
+                    <a href="{{ url_for('logout') }}" class="text-white hover:underline">Logout</a>
                 {% else %}
-                    <a href="/login" class="mr-4 text-white hover:underline">Login</a>
-                    <a href="/register" class="text-white hover:underline">Register</a>
+                    <a href="{{ url_for('login') }}" class="mr-4 text-white hover:underline">Login</a>
+                    <a href="{{ url_for('register') }}" class="text-white hover:underline">Register</a>
                 {% endif %}
             </div>
         </div>
@@ -24,13 +24,16 @@
     <div class="container mx-auto my-8">
         <h1 class="text-2xl font-bold">Welcome to Stock Manager</h1>
         {% if user %}
-        <p>Your current balance: ${{ user['current_balance'] }}</p>
-        <p>Stocks owned: {{ user['stocks_owned'] }}</p>
+            <p class="mt-4">Your current balance: ${{ user['current_balance'] }}</p>
+            <p class="mt-2">Stocks owned: {{ user['stocks_owned'] }}</p>
         {% else %}
-        <p>Login or register to access your portfolio.</p>
-        <a href="/login" class="btn btn-primary">Login</a>
-        <a href="/register" class="btn btn-secondary">Register</a>
+            <p class="mt-4">Login or register to access your portfolio.</p>
+            <div class="mt-4">
+                <a href="{{ url_for('login') }}" class="bg-blue-500 text-white py-2 px-4 rounded mr-2">Login</a>
+                <a href="{{ url_for('register') }}" class="bg-green-500 text-white py-2 px-4 rounded">Register</a>
+            </div>
         {% endif %}
     </div>
 </body>
 </html>
+
