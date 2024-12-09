@@ -33,3 +33,6 @@ princedenH/saschaGZ -- 12/5/2024 11:45
 jackieZ -- 12/5/2024 12:10
 - Wrote login.html
 - Wrote register.html (Doesn't redirect back to home after registering though, not sure why)
+
+jackieZ --12/9/2024 11:35
+- Update home styling and buttons
