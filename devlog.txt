@@ -33,3 +33,9 @@ princedenH/saschaGZ -- 12/5/2024 11:45
 jackieZ -- 12/5/2024 12:10
 - Wrote login.html
 - Wrote register.html (Doesn't redirect back to home after registering though, not sure why)
+
+princedenH/saschaGZ -- 12/6/2024 11:47
+- Created money.py
+- Created currency convert function in money.py 
+
+princedenH -- 12/9/2024 11:47

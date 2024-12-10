@@ -7,11 +7,11 @@ Time Spent:
 '''
 # Inspired by Team Bareustoph 
 import os
-PATH = "app\keys"
+PATH = "keys"
 # return a key if file is found, otherwise returns "EMPTY_KEY"
 def get_key(key_name):
     key_path = os.path.join(PATH, key_name)
-    # print(key_path)
+#    print(key_path)
     try:
         with open(key_path, 'r') as f:
             return f.read().strip()  
