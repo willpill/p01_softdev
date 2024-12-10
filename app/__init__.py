@@ -51,6 +51,9 @@ def logout():
     flash('You have been logged out.', 'info')
     return redirect(url_for('home'))
 
+@app.route('/currency_exchange')
+def currency_exchange():
+    return render_template('currency_exchange.html')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
