@@ -1,9 +1,11 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash
-import sqlite3
 import os
-from werkzeug.security import generate_password_hash, check_password_hash
-from build_db import setup_database
+import sqlite3
 import keys
+
+from flask import Flask, render_template, request, redirect, url_for, session, flash
+from werkzeug.security import generate_password_hash, check_password_hash
+
+from build_db import setup_database
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -27,7 +29,7 @@ def home():
         return render_template('home.html', user=user_data)
     return render_template('home.html', user=None)
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET','POST'])
 def login():
     if request.method == 'POST':
         username = request.form['username']
@@ -44,18 +46,13 @@ def login():
         flash('Invalid username or password', 'danger')
     return render_template('login.html')
 
-
-@app.route('/logout')
+@app.route('/logout', methods=['GET','POST'])
 def logout():
     session.pop('username', None)
     flash('You have been logged out.', 'info')
     return redirect(url_for('home'))
 
-@app.route('/currency_exchange')
-def currency_exchange():
-    return render_template('currency_exchange.html')
-
-@app.route('/register', methods=['GET', 'POST'])
+@app.route('/register', methods=['GET','POST'])
 def register():
     if request.method == 'POST':
         username = request.form['username']
