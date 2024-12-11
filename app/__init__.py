@@ -1,6 +1,7 @@
 import os
 import sqlite3
 import keys
+import requests
 
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -9,7 +10,7 @@ from build_db import setup_database
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
-currency_key = "3640fcf307bd1020090b38674dbaeceb"#keys.get_key("keys_currencylayer.txt")
+currency_key = "a6bc55e4910ba85a6b590df72c94b1b7"#keys.get_key("keys_currencylayer.txt")
 fixer_key = keys.get_key("keys_fixer.txt")
 marketstack_key = keys.get_key("keys_marketstack.txt")
 modelingprep_key = keys.get_key("keys_financialmodelingprep.txt")
@@ -81,15 +82,16 @@ def currency_exchange():
         base_currency = request.form['base_currency']
         target_currency = request.form['target_currency']
         amount = float(request.form['amount'])
-        response = requests.get(f"https://api.currencylayer.com/convert?access_key={currency_key}")
+        response = requests.get(f"https://api.currencylayer.com/convert?access_key={currency_key}&from={base_currency}&to={target_currency}&amount={amount}")
         data = response.json()
         if data['success']:
-            rates = data['quotes']
-            base_rate = rates.get(f"USD{base_currency.upper()}")
-            target_rate = rates.get(f"USD{target_currency.upper()}")
-            if base_rate and target_rate:
-                conversion_result = round((amount / base_rate) * target_rate, 2)
-            else: flash("Invalid currency code entered.", 'danger')
+            rates = data['info']['quote']
+            # base_rate = rates.get(f"USD{base_currency.upper()}")
+            # target_rate = rates.get(f"USD{target_currency.upper()}")
+            
+            index=str(data['result']).index('.')
+            conversion_result = str(data['result'])[0:index+4]
+            
         else: flash("Error fetching exchange rates.", 'danger')
     return render_template('currency_exchange.html', result=conversion_result)
 
