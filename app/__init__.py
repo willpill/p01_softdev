@@ -9,7 +9,7 @@ from build_db import setup_database
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
-currency_key = keys.get_key("keys_currencylayer.txt")
+currency_key = "3640fcf307bd1020090b38674dbaeceb"#keys.get_key("keys_currencylayer.txt")
 fixer_key = keys.get_key("keys_fixer.txt")
 marketstack_key = keys.get_key("keys_marketstack.txt")
 modelingprep_key = keys.get_key("keys_financialmodelingprep.txt")
@@ -73,6 +73,25 @@ def register():
         finally:
             conn.close()
     return render_template('register.html')
+
+@app.route('/currency_exchange', methods=['GET', 'POST'])
+def currency_exchange():
+    conversion_result = None
+    if request.method == 'POST':
+        base_currency = request.form['base_currency']
+        target_currency = request.form['target_currency']
+        amount = float(request.form['amount'])
+        response = requests.get(f"https://api.currencylayer.com/convert?access_key={currency_key}")
+        data = response.json()
+        if data['success']:
+            rates = data['quotes']
+            base_rate = rates.get(f"USD{base_currency.upper()}")
+            target_rate = rates.get(f"USD{target_currency.upper()}")
+            if base_rate and target_rate:
+                conversion_result = round((amount / base_rate) * target_rate, 2)
+            else: flash("Invalid currency code entered.", 'danger')
+        else: flash("Error fetching exchange rates.", 'danger')
+    return render_template('currency_exchange.html', result=conversion_result)
 
 if __name__ == '__main__':
     setup_database()
