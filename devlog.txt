@@ -41,5 +41,12 @@ princedenH/saschaGZ -- 12/6/2024 11:47
 princedenH -- 12/9/2024 11:47
 - created function to retrieve stock data using market api
 
-jackieZ --12/9/2024 11:35
+yinweiZ -- 12/9/2024 11:50
+- Created currency exchange basis
+
+jackieZ -- 12/9/2024 11:35
 - Update home styling and buttons
+
+jackieZ -- 12/11/2024 11:35
+- Fixed currency exchange connection to api
+- Updated template for currency exchange
