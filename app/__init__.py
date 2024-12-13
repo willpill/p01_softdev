@@ -1,8 +1,8 @@
 import os
 import sqlite3
 import keys
-import requests
 
+import money
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -82,17 +82,11 @@ def currency_exchange():
         base_currency = request.form['base_currency']
         target_currency = request.form['target_currency']
         amount = float(request.form['amount'])
-        response = requests.get(f"https://api.currencylayer.com/convert?access_key={currency_key}&from={base_currency}&to={target_currency}&amount={amount}")
-        data = response.json()
-        if data['success']:
-            rates = data['info']['quote']
-            # base_rate = rates.get(f"USD{base_currency.upper()}")
-            # target_rate = rates.get(f"USD{target_currency.upper()}")
-            
-            index=str(data['result']).index('.')
-            conversion_result = str(data['result'])[0:index+4]
-            
-        else: flash("Error fetching exchange rates.", 'danger')
+        conversion_result = money.convert_currency(amount, base_currency, target_currency)
+        conversion_result = str(conversion_result)
+        index = conversion_result.find(".")
+        if index != -1:
+            conversion_result = conversion_result[:index + 4]
     return render_template('currency_exchange.html', result=conversion_result)
 
 if __name__ == '__main__':

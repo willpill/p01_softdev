@@ -38,7 +38,15 @@ def setup_database():
         )
     ''')
 
-
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS rates (
+            stock_name TEXT NOT NULL,
+            ticker_symbol TEXT PRIMARY KEY UNIQUE NOT NULL,
+            price FLOAT NOT NULL,
+            stock_sector TEXT,
+            last_updated DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+    ''')
     conn.commit()
     conn.close()
     print("Database setup complete.")
