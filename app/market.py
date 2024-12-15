@@ -87,3 +87,25 @@ def market_data():
                 error = profile["error"]
 
     return render_template('market_data.html', data=data, profile=profile, error=error)
+
+def get_popular_stocks():
+    url = f"https://financialmodelingprep.com/api/v3/stock_market/actives?apikey={FINANCIAL_MODELING_PREP_KEY}"
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        data = response.json()
+        if not data:
+            return {"error": "No popular stocks data found."}
+        return data
+    except Exception as e:
+        return {"error": str(e)}
+
+@market_bp.route('/popular_stocks')
+def popular_stocks():
+    data = get_popular_stocks()
+    error = None
+
+    if isinstance(data, dict) and "error" in data:
+        error = data["error"]
+
+    return render_template('popular_stocks.html', data=data, error=error)
