@@ -97,7 +97,7 @@ def get_popular_stocks():
         data = response.json()
         if not data:
             return {"error": "No popular stocks data found."}
-        return data
+        return data[:10]  
     except Exception as e:
         return {"error": str(e)}
 

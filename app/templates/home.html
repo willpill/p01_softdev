@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <title>Home</title>
+    <title>Home - Stonks App</title>
 </head>
 <body class="bg-gray-100 text-gray-800">
+
     <nav class="bg-blue-600 text-white p-4">
         <div class="container mx-auto flex justify-between items-center">
             <a href="{{ url_for('home') }}" class="text-lg font-bold">Home</a>
@@ -14,8 +15,8 @@
                 <a href="{{ url_for('market_bp.market_data') }}" class="mr-4 hover:underline">Market Data</a>
                 <a href="{{ url_for('market_bp.popular_stocks') }}" class="mr-4 hover:underline">Popular Stocks</a>
                 <a href="{{ url_for('currency_bp.currency_exchange') }}" class="mr-4 hover:underline">Currency Exchange</a>
-                {% if 'username' in session %}
-                    <span class="mr-4">Welcome, {{ session['username'] }}</span>
+                {% if user %}
+                    <span class="mr-4">Welcome, {{ user['username'] }}</span>
                     <a href="{{ url_for('logout') }}" class="hover:underline">Logout</a>
                 {% else %}
                     <a href="{{ url_for('login') }}" class="mr-4 hover:underline">Login</a>
@@ -24,19 +25,55 @@
             </div>
         </div>
     </nav>
-       
-    <div class="container mx-auto my-8">
-        <h1 class="text-2xl font-bold">Welcome to Stock Manager</h1>
+
+
+    <div class="container mx-auto my-12 p-8 bg-white shadow-lg rounded-lg">
+
+
         {% if user %}
-            <p class="mt-4">Your current balance: ${{ user['current_balance'] }}</p>
-            <p class="mt-2">Stocks owned: {{ user['stocks_owned'] }}</p>
+            <h1 class="text-4xl font-bold mb-4">Welcome Back, {{ user['username'] }}!</h1>
+            <p class="text-lg mb-6">Explore the latest market data, currency exchange rates, and more.</p>
         {% else %}
-            <p class="mt-4">Login or register to access your portfolio.</p>
-            <div class="mt-4">
-                <a href="{{ url_for('login') }}" class="bg-blue-500 text-white py-2 px-4 rounded mr-2">Login</a>
-                <a href="{{ url_for('register') }}" class="bg-green-500 text-white py-2 px-4 rounded">Register</a>
-            </div>
+            <h1 class="text-4xl font-bold mb-4">Welcome to the Stonks App!</h1>
+            <p class="text-lg mb-6">Sign up or log in to access powerful financial tools and insights.</p>
         {% endif %}
+
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <a href="{{ url_for('market_bp.market_data') }}" class="p-6 bg-blue-500 text-white rounded-lg text-center hover:bg-blue-600">
+                <h2 class="text-2xl font-bold mb-2">Market Data</h2>
+                <p>View detailed market data and trends.</p>
+            </a>
+            <a href="{{ url_for('market_bp.popular_stocks') }}" class="p-6 bg-green-500 text-white rounded-lg text-center hover:bg-green-600">
+                <h2 class="text-2xl font-bold mb-2">Popular Stocks</h2>
+                <p>Check out the most active stocks today.</p>
+            </a>
+            <a href="{{ url_for('currency_bp.currency_exchange') }}" class="p-6 bg-yellow-500 text-white rounded-lg text-center hover:bg-yellow-600">
+                <h2 class="text-2xl font-bold mb-2">Currency Exchange</h2>
+                <p>Convert currencies with real-time rates.</p>
+            </a>
+        </div>
+
+
+        <h2 class="text-3xl font-bold mb-4">Today's Popular Stocks</h2>
+        <div class="p-4 bg-gray-200 rounded-lg">
+            {% if popular_stocks %}
+                <ul class="space-y-4">
+                    {% for stock in popular_stocks %}
+                        <li class="p-4 bg-white shadow rounded-lg">
+                            <p><strong>Symbol:</strong> {{ stock.symbol }}</p>
+                            <p><strong>Name:</strong> {{ stock.name }}</p>
+                            <p><strong>Price:</strong> ${{ stock.price }}</p>
+                            <p><strong>Change:</strong> {{ stock.change }}</p>
+                            <p><strong>Change Percentage:</strong> {{ stock.changesPercentage }}%</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No popular stocks data available at the moment.</p>
+            {% endif %}
+        </div>
     </div>
+
 </body>
 </html>

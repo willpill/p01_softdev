@@ -9,7 +9,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 from build_db import setup_database
 from currency_exchange import currency_bp 
-from market import market_bp
+from market import market_bp, get_popular_stocks
 
 
 
@@ -34,8 +34,11 @@ def home():
         conn = get_db_connection()
         user_data = conn.execute('SELECT * FROM users WHERE username = ?', (username,)).fetchone()
         conn.close()
-        return render_template('home.html', user=user_data)
-    return render_template('home.html', user=None)
+        popular_stocks = get_popular_stocks()
+        return render_template('home.html', user=user_data, popular_stocks=popular_stocks)
+    else:
+        popular_stocks = get_popular_stocks()
+        return render_template('home.html', user=None, popular_stocks=popular_stocks)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
