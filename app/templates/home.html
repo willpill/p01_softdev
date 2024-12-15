@@ -11,7 +11,7 @@
         <div class="container mx-auto flex justify-between items-center">
             <a href="/" class="text-lg font-bold">Stock Manager</a>
             <div>
-                <a href="{{ url_for('currency_exchange') }}" class="mr-4 text-white hover:underline">Currency Exchange</a>
+                <a href="{{ url_for('currency_bp.currency_exchange') }}" class="mr-4 text-white hover:underline">Currency Exchange</a>
                 {% if session.username %}
                     <span class="mr-4">Welcome, {{ session.username }}</span>
                     <a href="{{ url_for('logout') }}" class="text-white hover:underline">Logout</a>
