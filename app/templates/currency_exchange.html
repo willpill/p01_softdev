@@ -15,6 +15,8 @@
                 <a href="{{ url_for('market_bp.market_data') }}" class="mr-4 hover:underline">Market Data</a>
                 <a href="{{ url_for('market_bp.popular_stocks') }}" class="mr-4 hover:underline">Popular Stocks</a>
                 <a href="{{ url_for('currency_bp.currency_exchange') }}" class="mr-4 hover:underline">Currency Exchange</a>
+                <a href="{{ url_for('watchlist') }}" class="mr-4 hover:underline">Watchlist</a>
+
                 {% if 'username' in session %}
                     <span class="mr-4">Welcome, {{ session['username'] }}</span>
                     <a href="{{ url_for('logout') }}" class="hover:underline">Logout</a>

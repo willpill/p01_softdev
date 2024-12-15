@@ -111,6 +111,36 @@ def watchlist():
     stocks = conn.execute('SELECT * FROM watchlist WHERE username = ?', (username,)).fetchall()
     conn.close()
     return render_template('watchlist.html', stocks=stocks)
+@app.route('/add_to_watchlist', methods=['POST'])
+@login_required
+def add_to_watchlist():
+    ticker = request.form['ticker'].upper()
+    username = session['username']
+
+    if not ticker:
+        flash('Please enter a valid ticker symbol.', 'danger')
+        return redirect(url_for('watchlist'))
+
+    conn = get_db_connection()
+    try:
+        conn.execute('INSERT INTO watchlist (username, ticker) VALUES (?, ?)', (username, ticker))
+        conn.commit()
+        flash(f'{ticker} added to your watchlist!', 'success')
+    except sqlite3.IntegrityError:
+        flash('This stock is already in your watchlist.', 'danger')
+    finally:
+        conn.close()
+    return redirect(url_for('watchlist'))
+
+@app.route('/remove_from_watchlist/<int:stock_id>', methods=['POST'])
+@login_required
+def remove_from_watchlist(stock_id):
+    conn = get_db_connection()
+    conn.execute('DELETE FROM watchlist WHERE id = ?', (stock_id,))
+    conn.commit()
+    conn.close()
+    flash('Stock removed from your watchlist.', 'success')
+    return redirect(url_for('watchlist'))
 '''CURRENCY_OPTIONS = """
 <option value='AED' title='United Arab Emirates Dirham'>AED</option>
 <option value='AFN' title='Afghan Afghani'>AFN</option>

@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <title>Most Popular Stocks</title>
+    <title>Watchlist</title>
 </head>
 <body class="bg-gray-100 text-gray-800">
 
-    <!-- Navigation Bar -->
     <nav class="bg-blue-600 text-white p-4">
         <div class="container mx-auto flex justify-between items-center">
             <a href="{{ url_for('home') }}" class="text-lg font-bold">Home</a>
@@ -30,27 +29,38 @@
     </nav>
 
     <div class="container mx-auto my-12 p-8 bg-white shadow-lg rounded-lg">
-        <h1 class="text-3xl font-bold mb-6 text-center">Most Popular Stocks Today</h1>
+        <h1 class="text-3xl font-bold mb-6">Your Watchlist</h1>
 
-        {% if error %}
-            <div class="p-4 mb-4 bg-red-100 border border-red-400 rounded">
-                <p class="text-red-700 font-semibold">{{ error }}</p>
-            </div>
-        {% endif %}
+        <form method="POST" action="{{ url_for('add_to_watchlist') }}" class="mb-6">
+            <input type="text" name="ticker" placeholder="Enter ticker symbol" class="border rounded w-full p-2 mb-2" required>
+            <button type="submit" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600">Add to Watchlist</button>
+        </form>
 
-        {% if data %}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="mb-4">
+                    {% for category, message in messages %}
+                        <div class="p-2 mb-2 rounded text-white bg-{{ 'red-500' if category == 'danger' else 'green-500' }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% if stocks %}
             <ul class="space-y-4">
-                {% for stock in data %}
-                    <li class="p-4 bg-gray-200 rounded">
-                        <p><strong>Symbol:</strong> {{ stock.symbol }}</p>
-                        <p><strong>Name:</strong> {{ stock.name }}</p>
-                        <p><strong>Price:</strong> ${{ stock.price }}</p>
-                        <p><strong>Change:</strong> {{ stock.change }}</p>
-                        <p><strong>Change Percentage:</strong> {{ stock.changesPercentage }}%</p>
-                        <p><strong>Volume:</strong> {{ stock.volume }}</p>
+                {% for stock in stocks %}
+                    <li class="p-4 bg-gray-200 rounded flex justify-between items-center">
+                        <span>{{ stock['ticker'] }} (Added on: {{ stock['date_added'] }})</span>
+                        <form method="POST" action="{{ url_for('remove_from_watchlist', stock_id=stock['id']) }}">
+                            <button type="submit" class="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600">Remove</button>
+                        </form>
                     </li>
                 {% endfor %}
             </ul>
+        {% else %}
+            <p class="text-gray-500">Your watchlist is currently empty.</p>
         {% endif %}
     </div>
 
