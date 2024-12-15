@@ -32,22 +32,24 @@ def home():
         return render_template('home.html', user=user_data)
     return render_template('home.html', user=None)
 
-@app.route('/login', methods=['GET','POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-
         conn = get_db_connection()
         user = conn.execute('SELECT * FROM users WHERE username = ?', (username,)).fetchone()
         conn.close()
-
-        if user and check_password_hash(user['password_hash'], password):
+        if not user:
+            flash('Username does not exist.', 'danger')
+        elif not check_password_hash(user['password_hash'], password):
+            flash('Incorrect password.', 'danger')
+        else:
             session['username'] = username
             flash('Login successful!', 'success')
             return redirect(url_for('home'))
-        flash('Invalid username or password', 'danger')
     return render_template('login.html')
+
 
 @app.route('/logout', methods=['GET','POST'])
 def logout():
@@ -55,7 +57,7 @@ def logout():
     flash('You have been logged out.', 'info')
     return redirect(url_for('home'))
 
-@app.route('/register', methods=['GET','POST'])
+@app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         username = request.form['username']
@@ -67,15 +69,25 @@ def register():
         try:
             conn.execute(
                 'INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)',
-                (username, email, password_hash))
+                (username, email, password_hash)
+            )
             conn.commit()
             flash('Registration successful! Please log in.', 'success')
             return redirect(url_for('login'))
-        except sqlite3.IntegrityError:
-            flash('Username or email already exists', 'danger')
+        except sqlite3.IntegrityError as e:
+            existing_user = conn.execute('SELECT * FROM users WHERE username = ? OR email = ?', (username, email)).fetchone()
+            if existing_user:
+                if existing_user['username'] == username:
+                    flash('Username is already in use.', 'danger')
+                elif existing_user['email'] == email:
+                    flash('Email is already in use.', 'danger')
+            else:
+                flash('An unexpected error occurred.', 'danger')
         finally:
             conn.close()
+
     return render_template('register.html')
+
 '''CURRENCY_OPTIONS = """
 <option value='AED' title='United Arab Emirates Dirham'>AED</option>
 <option value='AFN' title='Afghan Afghani'>AFN</option>
