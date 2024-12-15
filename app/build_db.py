@@ -8,39 +8,17 @@ def setup_database():
         CREATE TABLE IF NOT EXISTS users (
             username TEXT PRIMARY KEY UNIQUE,
             email TEXT UNIQUE NOT NULL,
-            password_hash TEXT NOT NULL,
-            current_balance FLOAT DEFAULT 0.0,
-            stocks_owned TEXT DEFAULT '[]' NOT NULL
+            password_hash TEXT NOT NULL
         )
     ''')
 
     cursor.execute('''
-        CREATE TABLE IF NOT EXISTS user_stocks (
+        CREATE TABLE IF NOT EXISTS watchlist (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT NOT NULL,
-            ticker_symbol TEXT NOT NULL,
-            quantity INTEGER NOT NULL,
-            PRIMARY KEY (username, ticker_symbol),
-            FOREIGN KEY (username) REFERENCES users (username) ON DELETE CASCADE
-        )
-    ''')
-
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS stocks (
-            stock_name TEXT NOT NULL,
-            ticker_symbol TEXT PRIMARY KEY UNIQUE NOT NULL,
-            price FLOAT NOT NULL,
-            stock_sector TEXT,
-            last_updated DATETIME DEFAULT CURRENT_TIMESTAMP
-        )
-    ''')
-
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS rates (
-            stock_name TEXT NOT NULL,
-            ticker_symbol TEXT PRIMARY KEY UNIQUE NOT NULL,
-            price FLOAT NOT NULL,
-            stock_sector TEXT,
-            last_updated DATETIME DEFAULT CURRENT_TIMESTAMP
+            ticker TEXT NOT NULL,
+            date_added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (username) REFERENCES users (username)
         )
     ''')
 

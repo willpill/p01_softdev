@@ -103,6 +103,14 @@ def login_required(f):
             return redirect(url_for('login'))
         return f(*args, **kwargs)
     return decorated_function
+@app.route('/watchlist')
+@login_required
+def watchlist():
+    conn = get_db_connection()
+    username = session['username']
+    stocks = conn.execute('SELECT * FROM watchlist WHERE username = ?', (username,)).fetchall()
+    conn.close()
+    return render_template('watchlist.html', stocks=stocks)
 '''CURRENCY_OPTIONS = """
 <option value='AED' title='United Arab Emirates Dirham'>AED</option>
 <option value='AFN' title='Afghan Afghani'>AFN</option>
