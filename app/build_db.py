@@ -1,32 +1,28 @@
 import sqlite3
 
 def setup_database():
-
     conn = sqlite3.connect('stonks.db')
     cursor = conn.cursor()
 
-   
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS users (
             username TEXT PRIMARY KEY UNIQUE,
             email TEXT UNIQUE NOT NULL,
             password_hash TEXT NOT NULL,
             current_balance FLOAT DEFAULT 0.0,
-            stocks_owned TEXT NOT NULL
+            stocks_owned TEXT DEFAULT '[]' NOT NULL
         )
     ''')
-
 
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS user_stocks (
             username TEXT NOT NULL,
             ticker_symbol TEXT NOT NULL,
-            quantity INT NOT NULL,
+            quantity INTEGER NOT NULL,
             PRIMARY KEY (username, ticker_symbol),
-            FOREIGN KEY (username) REFERENCES users (username)
+            FOREIGN KEY (username) REFERENCES users (username) ON DELETE CASCADE
         )
     ''')
-
 
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS stocks (
@@ -47,6 +43,7 @@ def setup_database():
             last_updated DATETIME DEFAULT CURRENT_TIMESTAMP
         )
     ''')
+
     conn.commit()
     conn.close()
     print("Database setup complete.")
