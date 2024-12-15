@@ -7,7 +7,24 @@
     <title>Market Data</title>
 </head>
 <body class="bg-gray-100 text-gray-800">
-
+    <nav class="bg-blue-600 text-white p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="{{ url_for('home') }}" class="text-lg font-bold">Home</a>
+            <div>
+                <a href="{{ url_for('market_bp.market_data') }}" class="mr-4 hover:underline">Market Data</a>
+                <a href="{{ url_for('market_bp.popular_stocks') }}" class="mr-4 hover:underline">Popular Stocks</a>
+                <a href="{{ url_for('currency_bp.currency_exchange') }}" class="mr-4 hover:underline">Currency Exchange</a>
+                {% if 'username' in session %}
+                    <span class="mr-4">Welcome, {{ session['username'] }}</span>
+                    <a href="{{ url_for('logout') }}" class="hover:underline">Logout</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="mr-4 hover:underline">Login</a>
+                    <a href="{{ url_for('register') }}" class="hover:underline">Register</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    
     <div class="container mx-auto my-12 p-8 bg-white shadow-lg rounded-lg">
         <h1 class="text-3xl font-bold mb-6 text-center">Market Data</h1>
 
