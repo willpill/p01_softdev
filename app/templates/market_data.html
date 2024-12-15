@@ -8,23 +8,6 @@
 </head>
 <body class="bg-gray-100 text-gray-800">
 
-    <nav class="bg-blue-600 text-white p-4">
-        <div class="container mx-auto flex justify-between items-center">
-            <a href="{{ url_for('home') }}" class="text-lg font-bold">Home</a>
-            <div>
-                <a href="{{ url_for('market_bp.market_data') }}" class="mr-4 hover:underline">Market Data</a>
-                <a href="{{ url_for('currency_bp.currency_exchange') }}" class="mr-4 hover:underline">Currency Exchange</a>
-                {% if 'username' in session %}
-                    <span class="mr-4">Welcome, {{ session['username'] }}</span>
-                    <a href="{{ url_for('logout') }}" class="hover:underline">Logout</a>
-                {% else %}
-                    <a href="{{ url_for('login') }}" class="mr-4 hover:underline">Login</a>
-                    <a href="{{ url_for('register') }}" class="hover:underline">Register</a>
-                {% endif %}
-            </div>
-        </div>
-    </nav>
-
     <div class="container mx-auto my-12 p-8 bg-white shadow-lg rounded-lg">
         <h1 class="text-3xl font-bold mb-6 text-center">Market Data</h1>
 
@@ -37,8 +20,8 @@
             <div>
                 <label for="source" class="block font-semibold mb-1">Data Source</label>
                 <select id="source" name="source" class="border rounded w-full p-2" required>
-                    <option value="marketstack">MarketStack</option>
-                    <option value="financialmodelingprep">Financial Modeling Prep</option>
+                    <option value="marketstack">MarketStack (EOD Data)</option>
+                    <option value="financialmodelingprep">Financial Modeling Prep (Company Profile)</option>
                 </select>
             </div>
 
@@ -52,7 +35,7 @@
                 <input type="date" id="date_to" name="date_to" class="border rounded w-full p-2">
             </div>
 
-            <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition">
+            <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
                 Fetch Data
             </button>
         </form>
@@ -64,21 +47,32 @@
         {% endif %}
 
         {% if data %}
-            <div class="mt-6 p-4 bg-green-100 border border-green-400 rounded">
-                <h2 class="text-2xl font-bold mb-4">Market Data</h2>
-                <ul class="space-y-4">
-                    {% for item in data %}
-                        <li class="p-4 bg-gray-200 rounded">
-                            <p><strong>Symbol:</strong> {{ item.symbol }}</p>
-                            <p><strong>Date:</strong> {{ item.date or 'N/A' }}</p>
-                            <p><strong>Open:</strong> {{ item.open }}</p>
-                            <p><strong>High:</strong> {{ item.high }}</p>
-                            <p><strong>Low:</strong> {{ item.low }}</p>
-                            <p><strong>Close:</strong> {{ item.close }}</p>
-                            <p><strong>Volume:</strong> {{ item.volume }}</p>
-                        </li>
-                    {% endfor %}
-                </ul>
+            <h2 class="text-2xl font-bold mt-6 mb-4">End-of-Day Data</h2>
+            <ul class="space-y-4">
+                {% for item in data %}
+                    <li class="p-4 bg-gray-200 rounded">
+                        <p><strong>Symbol:</strong> {{ item.symbol }}</p>
+                        <p><strong>Date:</strong> {{ item.date }}</p>
+                        <p><strong>Open:</strong> {{ item.open }}</p>
+                        <p><strong>High:</strong> {{ item.high }}</p>
+                        <p><strong>Low:</strong> {{ item.low }}</p>
+                        <p><strong>Close:</strong> {{ item.close }}</p>
+                        <p><strong>Volume:</strong> {{ item.volume }}</p>
+                        <p><strong>Exchange:</strong> {{ item.exchange }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        {% if profile %}
+            <h2 class="text-2xl font-bold mt-6 mb-4">Company Profile</h2>
+            <div class="p-4 bg-gray-200 rounded">
+                <p><strong>Symbol:</strong> {{ profile.symbol }}</p>
+                <p><strong>Company Name:</strong> {{ profile.companyName }}</p>
+                <p><strong>Price:</strong> {{ profile.price }}</p>
+                <p><strong>Market Cap:</strong> {{ profile.mktCap }}</p>
+                <p><strong>Industry:</strong> {{ profile.industry }}</p>
+                <p><strong>Website:</strong> <a href="{{ profile.website }}" target="_blank" class="text-blue-500">{{ profile.website }}</a></p>
             </div>
         {% endif %}
     </div>

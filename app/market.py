@@ -30,35 +30,35 @@ def get_marketstack_eod(ticker, date_from=None, date_to=None):
                 "high": item["high"],
                 "low": item["low"],
                 "close": item["close"],
-                "volume": item["volume"]
+                "volume": item["volume"],
+                "exchange": item["exchange"]
             }
             for item in data
         ]
     except Exception as e:
         return {"error": str(e)}
 
-def get_financialmodelingprep_quote(ticker):
-    url = f"https://financialmodelingprep.com/api/v3/quote/{ticker}?apikey={FINANCIAL_MODELING_PREP_KEY}"
+def search_fmp_ticker(query, limit=10):
+    url = f"https://financialmodelingprep.com/api/v3/search?query={query}&limit={limit}&apikey={FINANCIAL_MODELING_PREP_KEY}"
     try:
         response = requests.get(url)
         response.raise_for_status()
         data = response.json()
         if not data:
-            return {"error": "No data found for the given ticker."}
+            return {"error": "No tickers found for the given query."}
+        return data
+    except Exception as e:
+        return {"error": str(e)}
 
-        # Extract relevant fields
-        return [
-            {
-                "symbol": item["symbol"],
-                "price": item["price"],
-                "open": item["open"],
-                "high": item["dayHigh"],
-                "low": item["dayLow"],
-                "previous_close": item["previousClose"],
-                "volume": item["volume"]
-            }
-            for item in data
-        ]
+def get_fmp_company_profile(ticker):
+    url = f"https://financialmodelingprep.com/api/v3/profile/{ticker}?apikey={FINANCIAL_MODELING_PREP_KEY}"
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        data = response.json()
+        if not data:
+            return {"error": "No profile found for the given ticker."}
+        return data[0]  
     except Exception as e:
         return {"error": str(e)}
 
@@ -66,6 +66,7 @@ def get_financialmodelingprep_quote(ticker):
 def market_data():
     data = None
     error = None
+    profile = None
 
     if request.method == 'POST':
         ticker = request.form['ticker'].upper()
@@ -79,11 +80,29 @@ def market_data():
             if source == 'marketstack':
                 data = get_marketstack_eod(ticker, date_from, date_to)
             elif source == 'financialmodelingprep':
-                data = get_financialmodelingprep_quote(ticker)
+                profile = get_fmp_company_profile(ticker)
             else:
                 error = "Invalid data source selected."
 
             if isinstance(data, dict) and "error" in data:
                 error = data["error"]
+            if isinstance(profile, dict) and "error" in profile:
+                error = profile["error"]
 
-    return render_template('market_data.html', data=data, error=error)
+    return render_template('market_data.html', data=data, profile=profile, error=error)
+
+@market_bp.route('/search_ticker', methods=['GET', 'POST'])
+def search_ticker():
+    results = None
+    error = None
+
+    if request.method == 'POST':
+        query = request.form['query']
+        if not query:
+            flash("Please enter a search query.", "danger")
+        else:
+            results = search_fmp_ticker(query)
+            if isinstance(results, dict) and "error" in results:
+                error = results["error"]
+
+    return render_template('search_ticker.html', results=results, error=error)
