@@ -8,10 +8,13 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 from build_db import setup_database
 from currency_exchange import currency_bp 
+from market import market_bp
+
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 app.register_blueprint(currency_bp)
+app.register_blueprint(market_bp)
 currency_key = "a6bc55e4910ba85a6b590df72c94b1b7"#keys.get_key("keys_currencylayer.txt")
 fixer_key = keys.get_key("keys_fixer.txt")
 marketstack_key = keys.get_key("keys_marketstack.txt")
