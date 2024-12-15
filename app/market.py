@@ -18,7 +18,22 @@ def get_marketstack_eod(ticker, date_from=None, date_to=None):
     try:
         response = requests.get(base_url, params=params)
         response.raise_for_status()
-        return response.json().get("data", [])
+        data = response.json().get("data", [])
+        if not data:
+            return {"error": "No data found for the given ticker and date range."}
+
+        return [
+            {
+                "symbol": item["symbol"],
+                "date": item["date"],
+                "open": item["open"],
+                "high": item["high"],
+                "low": item["low"],
+                "close": item["close"],
+                "volume": item["volume"]
+            }
+            for item in data
+        ]
     except Exception as e:
         return {"error": str(e)}
 
@@ -27,7 +42,23 @@ def get_financialmodelingprep_quote(ticker):
     try:
         response = requests.get(url)
         response.raise_for_status()
-        return response.json()
+        data = response.json()
+        if not data:
+            return {"error": "No data found for the given ticker."}
+
+        # Extract relevant fields
+        return [
+            {
+                "symbol": item["symbol"],
+                "price": item["price"],
+                "open": item["open"],
+                "high": item["dayHigh"],
+                "low": item["dayLow"],
+                "previous_close": item["previousClose"],
+                "volume": item["volume"]
+            }
+            for item in data
+        ]
     except Exception as e:
         return {"error": str(e)}
 
