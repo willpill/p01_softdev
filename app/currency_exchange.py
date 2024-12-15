@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request
 import money
+from auth_utils import login_required
 
 currency_bp = Blueprint('currency_bp', __name__)
 
@@ -176,6 +177,7 @@ CURRENCY_OPTIONS = """
 """
 
 @currency_bp.route('/currency_exchange', methods=['GET', 'POST'])
+@login_required
 def currency_exchange():
     message = None
 

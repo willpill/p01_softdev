@@ -1,7 +1,7 @@
 import requests
 from flask import Blueprint, render_template, request, flash
 import keys
-
+from auth_utils import login_required
 market_bp = Blueprint('market_bp', __name__)
 
 MARKETSTACK_KEY = "3640fcf307bd1020090b38674dbaeceb"#keys.get_key("keys_marketstack.txt")
@@ -60,6 +60,7 @@ def get_fmp_company_profile(ticker):
 
 
 @market_bp.route('/market_data', methods=['GET', 'POST'])
+@login_required
 def market_data():
     data = None
     error = None
@@ -101,6 +102,7 @@ def get_popular_stocks():
         return {"error": str(e)}
 
 @market_bp.route('/popular_stocks')
+@login_required
 def popular_stocks():
     data = get_popular_stocks()
     error = None

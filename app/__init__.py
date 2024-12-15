@@ -2,6 +2,7 @@ import os
 import sqlite3
 import keys
 
+from functools import wraps
 import money
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -9,6 +10,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from build_db import setup_database
 from currency_exchange import currency_bp 
 from market import market_bp
+
 
 
 app = Flask(__name__)
@@ -90,7 +92,14 @@ def register():
             conn.close()
 
     return render_template('register.html')
-
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'username' not in session:
+            flash('You must be logged in to access this page.', 'danger')
+            return redirect(url_for('login'))
+        return f(*args, **kwargs)
+    return decorated_function
 '''CURRENCY_OPTIONS = """
 <option value='AED' title='United Arab Emirates Dirham'>AED</option>
 <option value='AFN' title='Afghan Afghani'>AFN</option>
