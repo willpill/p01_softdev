@@ -128,6 +128,7 @@ CURRENCY_OPTIONS = """
 @app.route('/currency_exchange', methods=['GET', 'POST'])
 def currency_exchange():
     conversion_result = None
+    message = None
 
     if request.method == 'POST':
         try:
@@ -135,15 +136,16 @@ def currency_exchange():
             target_currency = request.form['target_currency']
             amount = float(request.form['amount'])
             
-            # Perform the currency conversion
-            conversion_result = money.convert_currency(amount, base_currency, target_currency)
+            converted_amount = money.convert_currency(amount, base_currency, target_currency)
             
-            # Round to the nearest thousandth (3 decimal places)
-            conversion_result = round(conversion_result, 3)
+            converted_amount = round(converted_amount, 3)
+            
+            message = f"{amount} {base_currency} to {target_currency} is {converted_amount}"
         except (ValueError, TypeError):
-            conversion_result = "Invalid input or conversion error"
+            message = "Invalid input or conversion error"
 
-    return render_template('currency_exchange.html', result=conversion_result, dropdown_options=CURRENCY_OPTIONS)
+    return render_template('currency_exchange.html', result=message, dropdown_options=CURRENCY_OPTIONS)
+
 
 if __name__ == '__main__':
     setup_database()
