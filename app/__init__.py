@@ -55,7 +55,8 @@ def login():
         else:
             session['username'] = username
             flash('Login successful!', 'success')
-            return redirect(url_for('home'))
+            next_page = request.args.get('next')
+            return redirect(next_page or url_for('home'))
     return render_template('login.html')
 
 
@@ -100,7 +101,7 @@ def login_required(f):
     def decorated_function(*args, **kwargs):
         if 'username' not in session:
             flash('You must be logged in to access this page.', 'danger')
-            return redirect(url_for('login'))
+            return redirect(url_for('login', next=request.url))
         return f(*args, **kwargs)
     return decorated_function
 @app.route('/watchlist')
@@ -111,6 +112,7 @@ def watchlist():
     stocks = conn.execute('SELECT * FROM watchlist WHERE username = ?', (username,)).fetchall()
     conn.close()
     return render_template('watchlist.html', stocks=stocks)
+
 @app.route('/add_to_watchlist', methods=['POST'])
 @login_required
 def add_to_watchlist():
