@@ -101,16 +101,31 @@ def get_popular_stocks():
     except Exception as e:
         return {"error": str(e)}
 
-@market_bp.route('/popular_stocks')
+@market_bp.route('/popular_stocks', methods=['GET', 'POST'])
 @login_required
 def popular_stocks():
-    data = get_popular_stocks()
-    error = None
+    sectors = ["Technology", "Healthcare", "Finance", "Energy", "Consumer Goods", "Utilities", "Industrials", "Materials"]
+    selected_sector = request.form.get('sector')
 
-    if isinstance(data, dict) and "error" in data:
-        error = data["error"]
+    if selected_sector:
+        url = f"https://financialmodelingprep.com/api/v3/stock-screener?sector={selected_sector}&limit=10&apikey={FINANCIAL_MODELING_PREP_KEY}"
+    else:
+        url = f"https://financialmodelingprep.com/api/v3/stock_market/actives?apikey={FINANCIAL_MODELING_PREP_KEY}"
 
-    return render_template('popular_stocks.html', data=data, error=error)
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        data = response.json()
+        if not data:
+            data = []
+            error = "No popular stocks data found."
+        else:
+            error = None
+    except Exception as e:
+        data = []
+        error = str(e)
+
+    return render_template('popular_stocks.html', data=data, sectors=sectors, selected_sector=selected_sector, error=error)
 
 @market_bp.route('/stock/<symbol>')
 @login_required

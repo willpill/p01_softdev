@@ -150,6 +150,7 @@ def remove_from_watchlist(stock_id):
     conn.close()
     flash('Stock removed from your watchlist.', 'success')
     return redirect(url_for('watchlist'))
+
 '''CURRENCY_OPTIONS = """
 <option value='AED' title='United Arab Emirates Dirham'>AED</option>
 <option value='AFN' title='Afghan Afghani'>AFN</option>
