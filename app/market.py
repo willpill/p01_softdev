@@ -111,3 +111,15 @@ def popular_stocks():
         error = data["error"]
 
     return render_template('popular_stocks.html', data=data, error=error)
+
+@market_bp.route('/stock/<symbol>')
+@login_required
+def stock_detail(symbol):
+    try:
+        response = requests.get(f"http://api.marketstack.com/v1/eod/latest?access_key={API_KEY}&symbols={symbol}")
+        response.raise_for_status()
+        stock_data = response.json()['data'][0]
+
+        return render_template('stock_detail.html', stock=stock_data)
+    except Exception as e:
+        return f"Error fetching stock data: {e}"

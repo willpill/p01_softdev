@@ -46,13 +46,15 @@
                 {% endfor %}
             </div>
         {% endif %}
-    {% endwith %}
+        {% endwith %}
 
         {% if stocks %}
             <ul class="space-y-4">
                 {% for stock in stocks %}
                     <li class="p-4 bg-gray-200 rounded flex justify-between items-center">
-                        <span>{{ stock['ticker'] }} (Added on: {{ stock['date_added'] }})</span>
+                        <a href="{{ url_for('market_bp.stock_detail', symbol=stock['ticker']) }}" class="text-blue-600 font-semibold hover:underline">
+                            {{ stock['ticker'] }} (Added on: {{ stock['date_added'] }})
+                        </a>
                         <form method="POST" action="{{ url_for('remove_from_watchlist', stock_id=stock['id']) }}">
                             <button type="submit" class="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600">Remove</button>
                         </form>
