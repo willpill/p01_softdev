@@ -53,3 +53,15 @@ jackieZ -- 12/11/2024 11:35
 
 princedenH --12/13/2024 11:43
 - Integrated currency exchange with money.py
+
+jackieZ -- 12/15/2024 19:24
+- Added a watchlist page with functionality to add and remove stocks.
+- Ensured duplicate stocks cannot be added to the watchlist.
+- Added clickable links for each stock in the watchlist to view detailed information.
+- Improved the home page layout and navigation buttons.
+- Ensured login is required for accessing watchlist and other key features.
+- Fixed flash message issues on watchlist redirects.
+- Updated the home page layout with Tailwind CSS for a cleaner, more organized interface.
+- Added buttons for Market Data, Popular Stocks, Currency Exchange, and Watchlist.
+- Ensured all buttons have consistent styling and responsive design.
+- Fixed issue where the watchlist page didn’t correctly handle session-based user data.
