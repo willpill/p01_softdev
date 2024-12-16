@@ -51,7 +51,7 @@ jackieZ -- 12/11/2024 11:35
 - Fixed currency exchange connection to api
 - Updated template for currency exchange
 
-princedenH --12/13/2024 11:43
+princedenH/saschaGZ --12/13/2024 11:43
 - Integrated currency exchange with money.py
 
 jackieZ -- 12/15/2024 19:24
