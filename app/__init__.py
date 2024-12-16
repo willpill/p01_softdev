@@ -125,14 +125,21 @@ def add_to_watchlist():
 
     conn = get_db_connection()
     try:
-        conn.execute('INSERT INTO watchlist (username, ticker) VALUES (?, ?)', (username, ticker))
-        conn.commit()
-        flash(f'{ticker} added to your watchlist!', 'success')
-    except sqlite3.IntegrityError:
-        flash('This stock is already in your watchlist.', 'danger')
+        existing_stock = conn.execute('SELECT * FROM watchlist WHERE username = ? AND ticker = ?', (username, ticker)).fetchone()
+        
+        if existing_stock:
+            flash(f'{ticker} is already in your watchlist.', 'danger')
+        else:
+            conn.execute('INSERT INTO watchlist (username, ticker) VALUES (?, ?)', (username, ticker))
+            conn.commit()
+            flash(f'{ticker} added to your watchlist!', 'success')
+    except Exception as e:
+        flash(f'An error occurred: {str(e)}', 'danger')
     finally:
         conn.close()
+
     return redirect(url_for('watchlist'))
+
 
 @app.route('/remove_from_watchlist/<int:stock_id>', methods=['POST'])
 @login_required
