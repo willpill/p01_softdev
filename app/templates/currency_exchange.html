@@ -37,7 +37,7 @@
                 <label for="base_currency" class="block font-semibold mb-1">Base Currency</label>
                 <select id="base_currency" name="base_currency" class="border rounded w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                     <option value="" disabled selected>Select Base Currency</option>
-                    {{ dropdown_options | safe }}
+                    {% include 'currency_options.html'%}
                 </select>
             </div>
             
@@ -45,7 +45,7 @@
                 <label for="target_currency" class="block font-semibold mb-1">Target Currency</label>
                 <select id="target_currency" name="target_currency" class="border rounded w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                     <option value="" disabled selected>Select Target Currency</option>
-                    {{ dropdown_options | safe }}
+                    {% include 'currency_options.html'%}
                 </select>
             </div>
             

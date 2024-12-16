@@ -42,7 +42,7 @@ princedenH -- 12/9/2024 11:47
 - created function to retrieve stock data using market api
 
 yinweiZ -- 12/9/2024 11:50
-- Created currency exchange basis
+- Created currency exchange page
 
 jackieZ -- 12/9/2024 11:35
 - Update home styling and buttons
@@ -65,3 +65,7 @@ jackieZ -- 12/15/2024 19:24
 - Added buttons for Market Data, Popular Stocks, Currency Exchange, and Watchlist.
 - Ensured all buttons have consistent styling and responsive design.
 - Fixed issue where the watchlist page didn’t correctly handle session-based user data.
+
+yinweiZ -- 12/15/2024 23:31
+- Greatly simplify the process of currency exchange
+- Avoid passing hardcoded values to the currency exchange function, but make them a separate HTML file.
