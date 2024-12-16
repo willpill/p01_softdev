@@ -116,7 +116,7 @@ def popular_stocks():
 @login_required
 def stock_detail(symbol):
     try:
-        response = requests.get(f"http://api.marketstack.com/v1/eod/latest?access_key={API_KEY}&symbols={symbol}")
+        response = requests.get(f"http://api.marketstack.com/v1/eod/latest?access_key={MARKETSTACK_KEY}&symbols={symbol}")
         response.raise_for_status()
         stock_data = response.json()['data'][0]
 
