@@ -104,7 +104,7 @@ def get_popular_stocks():
 @market_bp.route('/popular_stocks', methods=['GET', 'POST'])
 @login_required
 def popular_stocks():
-    sectors = ["Technology", "Healthcare", "Finance", "Energy", "Consumer Goods", "Utilities", "Industrials", "Materials"]
+    sectors = ["Basic Materials","Communication Services","Consumer Cyclical","Consumer Defensive","Energy","Financial Services","Healthcare","Industrials","Real Estate","Technology","Utilities"]
     selected_sector = request.form.get('sector')
 
     if selected_sector:
