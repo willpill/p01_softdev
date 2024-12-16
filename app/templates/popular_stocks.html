@@ -31,7 +31,6 @@
     <div class="container mx-auto my-12 p-8 bg-white shadow-lg rounded-lg">
         <h1 class="text-3xl font-bold mb-6 text-center">Most Popular Stocks</h1>
 
-
         <form method="POST" class="mb-6">
             <label for="sector" class="block text-lg font-medium mb-2">Filter by Sector:</label>
             <select name="sector" id="sector" class="border rounded p-2 w-full mb-4">
@@ -47,12 +46,12 @@
             </button>
         </form>
 
-
         {% if error %}
             <div class="p-4 mb-4 bg-red-100 border border-red-400 rounded">
                 <p class="text-red-700 font-semibold">{{ error }}</p>
             </div>
         {% endif %}
+
 
         {% if data %}
             <ul class="space-y-4">
@@ -60,10 +59,22 @@
                     <li class="p-4 bg-gray-200 rounded shadow">
                         <p><strong>Symbol:</strong> {{ stock.symbol or stock['symbol'] }}</p>
                         <p><strong>Name:</strong> {{ stock.name or stock['companyName'] }}</p>
-                        <p><strong>Price:</strong> ${{ stock.price }}</p>
-                        <p><strong>Change:</strong> {{ stock.change }}</p>
-                        <p><strong>Change Percentage:</strong> {{ stock.changesPercentage }}%</p>
-                        <p><strong>Volume:</strong> {{ stock.volume }}</p>
+
+                        {% if stock.price %}
+                            <p><strong>Price:</strong> ${{ stock.price }}</p>
+                        {% endif %}
+
+                        {% if stock.change %}
+                            <p><strong>Change:</strong> {{ stock.change }}</p>
+                        {% endif %}
+
+                        {% if stock.changesPercentage %}
+                            <p><strong>Change Percentage:</strong> {{ stock.changesPercentage }}%</p>
+                        {% endif %}
+
+                        {% if stock.volume %}
+                            <p><strong>Volume:</strong> {{ stock.volume }}</p>
+                        {% endif %}
                     </li>
                 {% endfor %}
             </ul>
