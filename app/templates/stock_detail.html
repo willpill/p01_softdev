@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>{{ stock['symbol'] }} Details</title>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <nav class="bg-blue-600 text-white p-4">
+        <div class="container mx-auto">
+            <a href="{{ url_for('home') }}" class="text-lg font-bold">Home</a>
+        </div>
+    </nav>
+
+    <div class="container mx-auto my-12 p-8 bg-white shadow-lg rounded-lg">
+        <h1 class="text-4xl font-bold mb-6">{{ stock['symbol'] }}</h1>
+        <p><strong>Date:</strong> {{ stock['date'] }}</p>
+        <p><strong>Open:</strong> {{ stock['open'] }}</p>
+        <p><strong>High:</strong> {{ stock['high'] }}</p>
+        <p><strong>Low:</strong> {{ stock['low'] }}</p>
+        <p><strong>Close:</strong> {{ stock['close'] }}</p>
+        <p><strong>Volume:</strong> {{ stock['volume'] }}</p>
+
+        <a href="{{ url_for('watchlist') }}" class="inline-block mt-6 text-blue-600 hover:underline">Back to Watchlist</a>
+    </div>
+
+</body>
+</html>
