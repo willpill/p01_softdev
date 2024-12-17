@@ -69,3 +69,6 @@ jackieZ -- 12/15/2024 19:24
 yinweiZ -- 12/15/2024 23:31
 - Greatly simplify the process of currency exchange
 - Avoid passing hardcoded values to the currency exchange function, but make them a separate HTML file.
+
+Sascha Gordon-Zolov -- 12/16/2024 23:51
+- Wrote how-to document for the Python Requests Module
