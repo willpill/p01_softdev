@@ -4,8 +4,8 @@ import keys
 from auth_utils import login_required
 market_bp = Blueprint('market_bp', __name__)
 
-MARKETSTACK_KEY = "3640fcf307bd1020090b38674dbaeceb"#keys.get_key("keys_marketstack.txt")
-FINANCIAL_MODELING_PREP_KEY = "rWxIWYGGtVaL8WBpShqPg4LFn9W1ISUJ"#keys.get_key("keys_financialmodelingprep.txt")
+MARKETSTACK_KEY = keys.get_key("keys_marketstack.txt")
+FINANCIAL_MODELING_PREP_KEY = keys.get_key("keys_financialmodelingprep.txt")
 
 def get_marketstack_eod(ticker, date_from=None, date_to=None):
     if not date_from and not date_to:
